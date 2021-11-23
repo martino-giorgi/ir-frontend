@@ -1,16 +1,12 @@
-body {
-	background-color: rgb(255, 255, 255);
-	display: flex;
-	justify-content: center;
-
-	#root {
-		width: 80%;
-		display: flex;
-		justify-content: center;
-	}
-}
-
 h1 {
 	color: rgb(255, 162, 193);
+	font-size: 3em;
 	font-family: 'Indie Flower', cursive;
+}
+
+.inputRounded .MuiOutlinedInput-root {
+	border-radius: 30px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 }

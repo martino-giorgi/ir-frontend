@@ -1,14 +1,13 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+import { Box, Grid, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import React from 'react';
-import type { Result } from '../App';
+import { Result } from 'types';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const getPrice = (price: string) => {
-	if (price) {
+	if (price && price !== '0' && price !== '0.0' && price !== 'Free') {
 		if (price.toString().indexOf('$') !== -1) {
 			return price;
 		} else {
@@ -20,7 +19,7 @@ const getPrice = (price: string) => {
 };
 
 const ResultComponent = (props: Result) => {
-	var {
+	const {
 		title,
 		description,
 		subject,
@@ -31,48 +30,52 @@ const ResultComponent = (props: Result) => {
 		rating,
 	} = props;
 
-	const card = (
-		<React.Fragment>
-			<CardContent>
-				<Typography
-					sx={{ fontSize: 14 }}
-					color='text.secondary'
-					gutterBottom>
-					{subject}
-				</Typography>
+	return (
+		<Grid pb='30px' mb='20px'>
+			<Typography
+				sx={{ fontSize: 14 }}
+				color='text.secondary'
+				gutterBottom>
+				{subject}
+			</Typography>
+			<Link href={link}>
 				<Typography variant='h5' component='div'>
 					{title}
 				</Typography>
-				<Typography color='text.secondary'>
-					Price: {getPrice(price)}
-				</Typography>
-				<Typography color='text.secondary'>
-					Duration: {duration}
-				</Typography>
-				<Typography color='text.secondary'>
-					Difficulty: {difficulty ? difficulty : 'N/A'}
-				</Typography>
-				<Typography sx={{ mb: 1 }} color='text.secondary'>
-					Rating: {rating ? rating + '%' : 'N/A'}
-				</Typography>
-				<Typography variant='body2'>{description}</Typography>
-			</CardContent>
-			<CardActions>
-				<Button
-					onClick={() => {
-						window.open(link as string, '_blank');
-					}}
-					size='small'>
-					Go to Course
-				</Button>
-			</CardActions>
-		</React.Fragment>
-	);
+			</Link>
+			<Typography variant='body2'>{description}</Typography>
+			<Grid container mt='20px'>
+				<Box display='flex' alignItems='center' mr='20px'>
+					<AttachMoneyIcon fontSize='small' />
+					<Typography ml='2px' color='text.secondary'>
+						{getPrice(price)}
+					</Typography>
+				</Box>
+				<Box display='flex' alignItems='center' mr='20px'>
+					<AccessTimeIcon fontSize='small' />
+					<Typography ml='8px' color='text.secondary'>
+						{duration}
+					</Typography>
+				</Box>
+				{difficulty && (
+					<Box display='flex' alignItems='center' mr='20px'>
+						<LeaderboardIcon fontSize='small' />
+						<Typography ml='8px' color='text.secondary'>
+							{difficulty}
+						</Typography>
+					</Box>
+				)}
 
-	return (
-		<Box sx={{ width: '100%' }}>
-			<Card variant='outlined'>{card}</Card>
-		</Box>
+				{rating > 0 && (
+					<Box display='flex' alignItems='center' mr='20px'>
+						<ThumbUpIcon fontSize='small' />
+						<Typography ml='8px' color='text.secondary'>
+							{rating}%
+						</Typography>
+					</Box>
+				)}
+			</Grid>
+		</Grid>
 	);
 };
 
